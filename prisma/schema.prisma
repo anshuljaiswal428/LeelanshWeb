@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Supabase: use the pooled connection for DATABASE_URL (port 6543, ?pgbouncer=true)
+  // and the direct connection for DIRECT_URL (port 5432) so migrations work.
+  directUrl = env("DIRECT_URL")
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  name        String
+  area        String
+  address     String
+  mapLink     String
+  image       String
+  description String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("properties")
+}
+
+model SiteSetting {
+  key   String @id
+  value String
+
+  @@map("site_settings")
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  image     String
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("gallery_images")
+}

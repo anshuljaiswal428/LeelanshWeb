@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-wine: #7a1530;
+  --color-wine-deep: #4d0d1f;
+  --color-wine-soft: #a8324f;
+  --color-cream: #faf4ee;
+  --color-sand: #efe3d6;
+  --color-ink: #2a1016;
+  --color-gold: #c89b5a;
+
+  /* Unified: headings and body share Inter (headings just use heavier weight). */
+  --font-serif: var(--font-inter);
+  --font-sans: var(--font-inter);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
 }
+
+::selection {
+  background: var(--color-wine);
+  color: #fff;
+}
+
+.section-heading {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+@keyframes ripple {
+  from { transform: scale(1); opacity: 0.55; }
+  to { transform: scale(1.9); opacity: 0; }
+}
+@keyframes floaty {
+  50% { transform: translateY(-8px); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-ripple { animation: ripple 2s infinite; }
+.animate-floaty { animation: floaty 3s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 26s linear infinite; }

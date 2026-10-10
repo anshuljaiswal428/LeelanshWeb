@@ -6,10 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@supabase/supabase-js": "^2.117.3",
+    "framer-motion": "^14.1.0",
+    "jose": "^6.2.12",
     "next": "16.4.0",
+    "prisma": "^6.19.3",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
