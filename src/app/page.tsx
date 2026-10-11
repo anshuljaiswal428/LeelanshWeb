@@ -7,8 +7,42 @@ import Owners from "@/components/Owners";
 import Footer from "@/components/Footer";
 import FloatingActions from "@/components/FloatingActions";
 import { getProperties, getGallery, getOwnerPhoto } from "@/lib/data";
+import { site } from "@/data/site";
 
 export const dynamic = "force-dynamic";
+
+/** Build schema.org LodgingBusiness JSON-LD for every PG so Google can show
+ *  each location as a local business in "pg in jaipur" style searches. */
+function buildLodgingJsonLd(
+  properties: { name: string; area: string; address: string; image: string; description: string }[],
+) {
+  const postalFrom = (address: string) => address.match(/\b(\d{6})\b/)?.[1];
+  return {
+    "@context": "https://schema.org",
+    "@graph": properties.map((p) => ({
+      "@type": "LodgingBusiness",
+      name: p.name,
+      description: p.description,
+      image: p.image || undefined,
+      url: site.url,
+      priceRange: "₹₹",
+      telephone: `+${site.phones[0].raw}`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: p.address,
+        addressLocality: "Jaipur",
+        addressRegion: "Rajasthan",
+        postalCode: postalFrom(p.address),
+        addressCountry: "IN",
+      },
+      amenityFeature: site.amenities.map((a) => ({
+        "@type": "LocationFeatureSpecification",
+        name: a.title,
+        value: true,
+      })),
+    })),
+  };
+}
 
 export default async function Home() {
   const [properties, gallery, ownerPhoto] = await Promise.all([
@@ -27,6 +61,12 @@ export default async function Home() {
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildLodgingJsonLd(properties)),
+        }}
+      />
       <Nav />
       <Hero propertyCount={properties.length} heroImages={heroImages} />
       <Properties properties={properties} />
