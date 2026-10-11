@@ -38,6 +38,8 @@ export type Property = {
 export const site = {
   brand: "Leelansh",
   brandFull: "Leelansh Girls PG",
+  /** Live domain, no trailing slash. Used for SEO: canonical URLs, sitemap, structured data. */
+  url: "https://leelanshpg.com",
   heroEyebrow: "4 Premium Locations in Jaipur",
   heroTitle: ["Girls PG", "that feels", "like home."],
   heroSubtitle:
